@@ -14,6 +14,7 @@ const Inner = styled.div`
 	margin: 0 auto;
 	height: ${props => props.height}px;
 	width: ${props => props.width}px;
+	overflow: hidden;
 `;
 
 function CenteredContainer({children, width, height}) {
