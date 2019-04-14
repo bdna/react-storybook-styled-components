@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import config from '../config';
 import ThemeProvider from './ThemeProvider';
 
 const Context = React.createContext({});
 
-const API_URL = '//localhost:3001';
-
 // TODO: add localstorage for offline
 function getData() {
-	return axios.get(API_URL).then((res) => {
+	return axios.get(config.APIUrl).then((res) => {
 		return res.data;
 	}).catch(() => {
 		return { theme: 'dark', reviews: [] };
@@ -17,11 +16,20 @@ function getData() {
 }
 
 class DataProvider extends Component {
-	state = {};
+	constructor(props) {
+		super(props);
+		this.state = {};
+		
+		this.updateData = this.updateData.bind(this);
+	}
 	
 	updateData() {
-		getData().then(data => {
-			this.setState({ theme: data.theme, reviews: data.reviews })
+		return getData().then(data => {
+			this.setState({
+				theme: data.theme,
+				reviews: data.reviews,
+				placeId: data.placeId
+			})
 		});
 	}
 	
@@ -36,12 +44,12 @@ class DataProvider extends Component {
 	
 	render() {
 		const { children } = this.props;
-		const { theme, reviews } = this.state;
+		const { theme, reviews, placeId } = this.state;
 		
 		if (!reviews) return null;
 		
 		return (
-			<Context.Provider value={reviews}>
+			<Context.Provider value={{ reviews, placeId, rehydrate: this.updateData }}>
 				<ThemeProvider theme={theme}>
 					{children}
 				</ThemeProvider>
@@ -55,7 +63,15 @@ export default DataProvider;
 export function withReviews(Component) {
 	return props => (
 		<Context.Consumer>
-			{reviews => <Component {...props} reviews={reviews} />}
+			{context => <Component {...props} reviews={context.reviews} />}
+		</Context.Consumer>
+	);
+}
+
+export function withData(Component) {
+	return props => (
+		<Context.Consumer>
+			{context => <Component {...props} placeId={context.placeId} rehydrate={context.rehydrate} />}
 		</Context.Consumer>
 	);
 }

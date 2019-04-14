@@ -1,20 +1,32 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 
+import config from '../config';
+
 // TODO: import images & add to manifest
 function Themes(props) {
-	const theme = {
+	const themes = {
 		green: {
+			name:  'green',
 			color: '0, 112, 74',
+			fontColor: 'white',
 			image: 'http://barstoolsfurniture.com/wp-content/uploads/2017/10/Mumin-Kaffe-A-Cheery-Coffee-Shop-Design-that-Your-Inner-Kid-Will-Love_1.jpg'
 		},
 		light: {
-			background: 'lightgray'
+			name: 'light',
+			color: '250, 250, 250',
+			fontColor: 'black',
+			image: 'http://barstoolsfurniture.com/wp-content/uploads/2017/10/Mumin-Kaffe-A-Cheery-Coffee-Shop-Design-that-Your-Inner-Kid-Will-Love_1.jpg'
 		},
 		dark: {
-			background: 'black'
+			name: 'dark',
+			color: '0, 0, 0',
+			fontColor: 'white',
+			image: 'http://barstoolsfurniture.com/wp-content/uploads/2017/10/Mumin-Kaffe-A-Cheery-Coffee-Shop-Design-that-Your-Inner-Kid-Will-Love_1.jpg'
 		}
-	}[props.theme];
+	};
+	
+	const theme = themes[props.theme] || themes[config.defaultTheme];
 	
 	return (
 		<ThemeProvider theme={theme}>
@@ -23,6 +35,6 @@ function Themes(props) {
 	);
 }
 
-// TODO: propTypes & default theme
+// TODO: propTypes
 
 export default Themes;

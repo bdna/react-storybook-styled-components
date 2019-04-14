@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import LinesEllipsis from 'react-lines-ellipsis'
 
 const Wrapper = styled.li`
-	color: white;
+	color: ${props => props.theme.fontColor};
 	margin-top: 1em;
 `;
 
@@ -16,10 +16,10 @@ const Body = styled(LinesEllipsis)`
 	font-weight: 1.2rem;
 `;
 
-function Review({ name, body }) {
+function Review({ name, text }) {
 	return (
 		<Wrapper>
-			<Body text={body} maxLine={5} />
+			<Body text={text} maxLine={5} />
 			<Name>{name}</Name>
 		</Wrapper>
 	);
