@@ -25,6 +25,7 @@ Basic scaffold of a React app to experiment with Storybook and Styled Components
 
 ## Common Tasks
 
-1. **Modify Appearance** - Styles are using styled-components - the CSS is co-located with the components in the '/src/components' directory. Some global CSS is in `/src/index.css`
-2. **Add / Modify Themes** - Theme mappings and properties are in `/src/providers/ThemeProvider`
-3. **Modify API Interaction** - API interaction and data handling is done in `/src/providers/DataProvider` and then propogated through the app using React's `context`
+1. **Configuration Properties** - Most general config values are in `/src/config.js`
+2. **Modify Appearance** - Styles are using styled-components - the CSS is co-located with the components in the '/src/components' directory. Some global CSS is in `/src/index.css`
+3. **Add / Modify Themes** - Available themes are enumerated in `/src/config.js`. The individual properties of these themes (eg, colours, images) are in `/src/providers/ThemeProvider`
+4. **Modify API Interaction** - API interaction and data handling is done in `/src/providers/DataProvider` and then propagated through the app using React's `context`
