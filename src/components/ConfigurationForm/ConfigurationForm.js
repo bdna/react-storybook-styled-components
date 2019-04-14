@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import propTypes from "prop-types";
 
 import config from "../../config";
 
@@ -35,5 +36,13 @@ function ConfigurationForm(props) {
     </Form>
   );
 }
+
+ConfigurationForm.propTypes = {
+  save: propTypes.func.isRequired,
+  setTheme: propTypes.func.isRequired,
+  theme: propTypes.string.isRequired,
+  setPlaceId: propTypes.func.isRequired,
+  placeId: propTypes.string.isRequired
+};
 
 export default ConfigurationForm;

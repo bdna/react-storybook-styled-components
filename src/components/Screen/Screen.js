@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import propTypes from "prop-types";
 
 import ReviewList from "../ReviewList/ReviewList";
 
@@ -28,5 +29,12 @@ function Screen() {
     </Wrapper>
   );
 }
+
+Screen.propTypes = {
+  theme: propTypes.shape({
+    color: propTypes.string.isRequired,
+    image: propTypes.string.isRequired
+  })
+};
 
 export default Screen;

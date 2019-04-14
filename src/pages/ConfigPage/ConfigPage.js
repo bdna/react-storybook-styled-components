@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { withTheme } from "styled-components";
 import axios from "axios";
+import propTypes from "prop-types";
+
 import config from "../../config";
 
 import CenteredContainer from "../../components/CenteredContainer/CenteredContainer";
@@ -24,5 +26,12 @@ function ConfigPage(props) {
     </CenteredContainer>
   );
 }
+
+ConfigPage.propTypes = {
+  placeId: propTypes.string.isRequired,
+  theme: propTypes.shape({
+    name: propTypes.string.isRequired
+  })
+};
 
 export default withData(withTheme(ConfigPage));

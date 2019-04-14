@@ -46,5 +46,10 @@
     "nodemon": "^1.18.11",
     "prettier": "^1.17.0",
     "pretty-quick": "^1.10.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import LinesEllipsis from "react-lines-ellipsis";
+import propTypes from "prop-types";
 
 const Wrapper = styled.li`
   color: ${props => props.theme.fontColor};
@@ -24,5 +25,16 @@ function Review({ name, text }) {
     </Wrapper>
   );
 }
+
+Review.propTypes = {
+  name: propTypes.string.isRequired,
+  text: propTypes.string.isRequired
+};
+
+Wrapper.propTypes = {
+  theme: propTypes.shape({
+    fontColor: propTypes.string.isRequired
+  })
+};
 
 export default Review;
