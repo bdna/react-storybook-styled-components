@@ -6,12 +6,12 @@ import ThemeProvider from './ThemeProvider';
 
 const Context = React.createContext({});
 
-// TODO: add localstorage for offline
 function getData() {
 	return axios.get(config.APIUrl).then((res) => {
+		localStorage.setItem('data', JSON.stringify(res.data));
 		return res.data;
 	}).catch(() => {
-		return { theme: 'dark', reviews: [] };
+		return JSON.parse(localStorage.getItem('data') || '');
 	})
 }
 
