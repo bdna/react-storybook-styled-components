@@ -1,15 +1,19 @@
-# React / Storybook / Styled Components
+# React / LowDB Scaffold
 
-Basic scaffold of a React app to experiment with Storybook and Styled Components.
+Basic scaffold of a React app with a Node server
 
-- The homepage shows reviews for a sample restaurant
-- Some options can be changed by visiting the `/config` route in browser
+- Shows a list of people
+- A `visible` flag on each user can be toggled by clicking them
 
-## Technical Notes
+## Endpoints
 
-- Uses a node API server that allows users to change some configuration, and connects to Google Places API for real reviews
-- Client reloads data on a 1-minute interval
-- Client uses Service Workers and `localStorage` to continue to work offline. Note service worker is only used in production mode
+A node / express server runs on port 3001 by default. It has these endpoints:
+
+- `GET /people` - _gets a list of all people, sorted by name_
+- `GET /people?sortBy=email` - _gets a list of people sorted by their email_
+- `POST /people` - _create a person_
+- `DELETE /people/{id}` - _deletes the person with the specified ID_
+- `PATCH /people/{id}` - _updates the person with the specified ID - only supports changes to `visible`_
 
 ## Getting started
 
@@ -23,9 +27,8 @@ Basic scaffold of a React app to experiment with Storybook and Styled Components
 3. `npm run build` builds the front-end in production mode
 4. `npm run serve` serves the contents of /build (created by npm run build) using an http server
 
-## Common Tasks
+## Part Two
 
-1. **Configuration Properties** - Most general config values are in `/src/config.js`
-2. **Modify Appearance** - Styles are using styled-components - the CSS is co-located with the components in the '/src/components' directory. Some global CSS is in `/src/index.css`
-3. **Add / Modify Themes** - Available themes are enumerated in `/src/config.js`. The individual properties of these themes (eg, colours, images) are in `/src/providers/ThemeProvider`
-4. **Modify API Interaction** - API interaction and data handling is done in `/src/providers/DataProvider` and then propagated through the app using React's `context`
+1. A Go server with the same functionality exists here: https://github.com/ryanmccombe/golang-basics/tree/master/11_goEchoGorm
+   Works as a straight replacement for the node server (runs on same port and has the same API) but, as I have no prior experience with Go, it is unlikely to be using good practices
+2. The UI supports theme switching - theme is currently set in `./src/config.js` but set up in such a way that it could easily be set by the API or by users

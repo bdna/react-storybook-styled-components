@@ -6,56 +6,45 @@ import ThemeProvider from "./ThemeProvider";
 
 const Context = React.createContext({});
 
-function getData() {
-  return axios
-    .get(config.APIUrl)
-    .then(res => {
-      localStorage.setItem("data", JSON.stringify(res.data));
-      return res.data;
-    })
-    .catch(() => {
-      return JSON.parse(localStorage.getItem("data") || "");
-    });
-}
-
 class DataProvider extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+  state = {};
 
-    this.updateData = this.updateData.bind(this);
-  }
-
-  updateData() {
-    return getData().then(data => {
+  componentDidMount() {
+    axios.get(config.APIUrl).then(res => {
       this.setState({
-        theme: data.theme,
-        reviews: data.reviews,
-        placeId: data.placeId
+        people: res.data.reduce((obj, person) => {
+          obj[person.id] = person;
+          return obj;
+        }, {})
       });
     });
   }
 
-  componentDidMount() {
-    this.updateData();
-    this.interval = window.setInterval(this.updateData.bind(this), 60000);
-  }
-
-  componentWillUnmount() {
-    window.clearInterval(this.interval);
+  setPersonVisibility(id, isVisible) {
+    axios.patch(`${config.APIUrl}/${id}`, { visible: isVisible }).then(res => {
+      this.setState({
+        people: {
+          ...this.state.people,
+          [res.data.id]: res.data
+        }
+      });
+    });
   }
 
   render() {
     const { children } = this.props;
-    const { theme, reviews, placeId } = this.state;
+    const { people } = this.state;
 
-    if (!reviews) return null;
+    if (!people) return null;
 
     return (
       <Context.Provider
-        value={{ reviews, placeId, rehydrate: this.updateData }}
+        value={{
+          people,
+          setPersonVisibility: this.setPersonVisibility.bind(this)
+        }}
       >
-        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+        <ThemeProvider theme={config.defaultTheme}>{children}</ThemeProvider>
       </Context.Provider>
     );
   }
@@ -63,22 +52,14 @@ class DataProvider extends Component {
 
 export default DataProvider;
 
-export function withReviews(Component) {
-  return props => (
-    <Context.Consumer>
-      {context => <Component {...props} reviews={context.reviews} />}
-    </Context.Consumer>
-  );
-}
-
 export function withData(Component) {
   return props => (
     <Context.Consumer>
       {context => (
         <Component
           {...props}
-          placeId={context.placeId}
-          rehydrate={context.rehydrate}
+          people={context.people}
+          setPersonVisibility={context.setPersonVisibility}
         />
       )}
     </Context.Consumer>
