@@ -29,7 +29,7 @@ function UserList({ people, setPersonVisibility }) {
               checked={people[key].visible}
               onChange={e => setPersonVisibility(key, e.target.checked)}
             />
-            {people[key].name}
+            {people[key].name || "[ No name specified ]"}
           </Label>
         </li>
       ))}
