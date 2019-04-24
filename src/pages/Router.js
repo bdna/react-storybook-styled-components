@@ -1,15 +1,13 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
-import ScreenPage from "./ScreenPage/ScreenPage";
-import ConfigPage from "./ConfigPage/ConfigPage";
+import HomePage from "./HomePage/HomePage";
 
 function Router() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={ScreenPage} />
-        <Route path="/config" component={ConfigPage} />
+        <Route exact path="/" component={HomePage} />
       </Switch>
     </BrowserRouter>
   );
